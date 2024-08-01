@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_hnekk"]
 [ext_resource type="Texture2D" uid="uid://dr1m4k3eryqi5" path="res://Assets/Sprites/knight.png" id="1_hrie8"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_uvyxd"]
-radius = 5.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_imdfa"]
+size = Vector2(10, 16)
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_sprite")]
 collision_layer = 2
@@ -20,5 +20,5 @@ region_enabled = true
 region_rect = Rect2(9, 8, 14, 20)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -5)
-shape = SubResource("CircleShape2D_uvyxd")
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_imdfa")

@@ -1,8 +1,17 @@
-[gd_scene load_steps=10 format=3 uid="uid://bahqjfouek47d"]
+[gd_scene load_steps=16 format=3 uid="uid://bahqjfouek47d"]
 
+[ext_resource type="Script" path="res://Scripts/GameManager.cs" id="1_ihdtr"]
 [ext_resource type="PackedScene" uid="uid://55cyvsuc566d" path="res://Scenes/Player.tscn" id="1_vwdjb"]
 [ext_resource type="Texture2D" uid="uid://blutul0ms4oc3" path="res://Assets/Sprites/world_tileset.png" id="2_kosyk"]
+[ext_resource type="Script" path="res://Scripts/UIManager.cs" id="2_xu1sy"]
+[ext_resource type="Texture2D" uid="uid://yen0rtnm4dg3" path="res://Assets/Sprites/coin.png" id="3_2ghv8"]
 [ext_resource type="PackedScene" uid="uid://b3uw1bisyic16" path="res://Scenes/Platform.tscn" id="3_ft2hd"]
+[ext_resource type="PackedScene" uid="uid://cf6vmgo7oao0y" path="res://Scenes/Coin.tscn" id="4_vca6a"]
+[ext_resource type="FontFile" uid="uid://5st5xmr2vlx6" path="res://Assets/Fonts/PixelOperator8.ttf" id="4_x0wbg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hjdax"]
+atlas = ExtResource("3_2ghv8")
+region = Rect2(3, 3, 10, 10)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cfq3f"]
 texture = ExtResource("2_kosyk")
@@ -450,10 +459,59 @@ _data = {
 
 [node name="Game" type="Node2D"]
 
+[node name="GameManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("1_ihdtr")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="UIManager" type="Node" parent="UI" node_paths=PackedStringArray("_coinCounter")]
+script = ExtResource("2_xu1sy")
+_coinCounter = NodePath("../CoinCounter/PanelContainer/MarginContainer/GridContainer/Label")
+
+[node name="CoinCounter" type="MarginContainer" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -284.0
+offset_bottom = 112.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+
+[node name="PanelContainer" type="PanelContainer" parent="UI/CoinCounter"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/CoinCounter/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="GridContainer" type="GridContainer" parent="UI/CoinCounter/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+columns = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/CoinCounter/PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_hjdax")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="UI/CoinCounter/PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_x0wbg")
+theme_override_font_sizes/font_size = 64
+text = "000"
+
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_7nuht")
 format = 2
-layer_0/tile_data = PackedInt32Array(65535, 0, 0, 0, 0, 0, 65534, 0, 0, 1, 0, 0, 65533, 0, 0, 65532, 0, 0, 65531, 0, 0, 131067, 0, 1, 196603, 0, 1, 196604, 0, 1, 196605, 0, 1, 196606, 0, 1, 196607, 0, 1, 131072, 0, 1, 131073, 0, 1, 65537, 0, 1, 65536, 0, 1, 131071, 0, 1, 131070, 0, 1, 131069, 0, 1, 131068, 0, 1, 2, 0, 0, 3, 0, 0, 4, 0, 0, -65531, 0, 0, -131066, 0, 0, 65538, 0, 1, 65539, 0, 1, 65540, 0, 1, 65541, 0, 1, 65542, 0, 1, 6, 0, 1, -65530, 0, 1, 5, 0, 1, 131076, 0, 1, 131075, 0, 1, 131074, 0, 1, 131077, 0, 1, 131078, 0, 1, -4, 0, 5, -65540, 0, 4, -131076, 0, 4, -196612, 0, 3, -3, 65536, 5, -5, 65536, 5, -131065, 0, 0, -131064, 589824, 0, -131063, 655360, 0, -131062, 720896, 0, -131060, 0, 0, -131061, 0, 0, -65529, 0, 1, 7, 0, 1, 65543, 0, 1, 131079, 0, 1, -65525, 0, 1, 11, 0, 1, 65547, 0, 1, 131083, 0, 1, 131084, 0, 1, 65548, 0, 1, 12, 0, 1, -65524, 0, 1, 65544, 262144, 10, 65545, 262144, 10, 65546, 262144, 10, 8, 327680, 9, 9, 327680, 9, 10, 327680, 9, 131082, 262144, 10, 131081, 262144, 10, 131080, 262144, 10, -196595, 0, 0, -196594, 0, 0, -262129, 0, 0, -327664, 0, 0, -327663, 0, 0, -327662, 0, 0, -262126, 0, 1, -196590, 0, 1, -131054, 0, 1, -65518, 0, 1, 18, 0, 1, 17, 0, 1, 65553, 0, 1, 131089, 0, 1, 131090, 0, 1, 65554, 0, 1, -262127, 0, 1, -262128, 0, 1, -196592, 0, 1, -196591, 0, 1, -131055, 0, 1, -65519, 0, 1, -65520, 0, 1, 16, 0, 1, 65552, 0, 1, 131088, 0, 1, 131087, 0, 1, 131086, 0, 1, 131085, 0, 1, 65549, 0, 1, 13, 0, 1, -65523, 0, 1, -131059, 0, 1, -131058, 0, 1, -131057, 0, 1, -196593, 0, 1, -131056, 0, 1, -65521, 0, 1, -65522, 0, 1, 14, 0, 1, 65550, 0, 1, 65551, 0, 1, 15, 0, 1, 131096, 0, 1, 65560, 0, 1, 24, 0, 1, -65512, 0, 1, -131048, 0, 1, -196584, 0, 1, -262120, 0, 1, -327656, 0, 0, -327655, 0, 0, -327654, 0, 0, -327653, 0, 0, -262117, 0, 1, -196581, 0, 1, -131045, 0, 1, -65510, 0, 1, 26, 0, 1, 65562, 0, 1, 131098, 0, 1, 131099, 0, 1, 65563, 0, 1, 27, 0, 1, -65509, 0, 1, -196582, 0, 1, -262118, 0, 1, -262119, 0, 1, -196583, 0, 1, -131047, 0, 1, -65511, 0, 1, 25, 0, 1, 65561, 0, 1, 131097, 0, 1, -131046, 0, 1)
+layer_0/tile_data = PackedInt32Array(65535, 0, 0, 0, 0, 0, 65534, 0, 0, 1, 0, 0, 65533, 0, 0, 65532, 0, 0, 65531, 0, 0, 131067, 0, 1, 196603, 0, 1, 196604, 0, 1, 196605, 0, 1, 196606, 0, 1, 196607, 0, 1, 131072, 0, 1, 131073, 0, 1, 65537, 0, 1, 65536, 0, 1, 131071, 0, 1, 131070, 0, 1, 131069, 0, 1, 131068, 0, 1, 2, 0, 0, 3, 0, 0, 4, 0, 0, -65531, 0, 0, -131066, 0, 0, 65538, 0, 1, 65539, 0, 1, 65540, 0, 1, 65541, 0, 1, 65542, 0, 1, 6, 0, 1, -65530, 0, 1, 5, 0, 1, 131076, 0, 1, 131075, 0, 1, 131074, 0, 1, 131077, 0, 1, 131078, 0, 1, -4, 0, 5, -65540, 0, 4, -131076, 0, 4, -196612, 0, 3, -3, 65536, 5, -5, 65536, 5, -131065, 0, 0, -131064, 589824, 0, -131063, 655360, 0, -131062, 720896, 0, -131060, 0, 0, -131061, 0, 0, -65529, 0, 1, 7, 0, 1, 65543, 0, 1, 131079, 0, 1, -65525, 0, 1, 11, 0, 1, 65547, 0, 1, 131083, 0, 1, 131084, 0, 1, 65548, 0, 1, 12, 0, 1, -65524, 0, 1, 65544, 262144, 10, 65545, 262144, 10, 65546, 262144, 10, 8, 327680, 9, 9, 327680, 9, 10, 327680, 9, 131082, 262144, 10, 131081, 262144, 10, 131080, 262144, 10, -196595, 0, 0, -196594, 0, 0, -262129, 0, 0, -327664, 0, 0, -327663, 0, 0, -327662, 0, 0, -262126, 0, 1, -196590, 0, 1, -131054, 0, 1, -65518, 0, 1, 18, 0, 1, 17, 0, 1, 65553, 0, 1, 131089, 0, 1, 131090, 0, 1, 65554, 0, 1, -262127, 0, 1, -262128, 0, 1, -196592, 0, 1, -196591, 0, 1, -131055, 0, 1, -65519, 0, 1, -65520, 0, 1, 16, 0, 1, 65552, 0, 1, 131088, 0, 1, 131087, 0, 1, 131086, 0, 1, 131085, 0, 1, 65549, 0, 1, 13, 0, 1, -65523, 0, 1, -131059, 0, 1, -131058, 0, 1, -131057, 0, 1, -196593, 0, 1, -131056, 0, 1, -65521, 0, 1, -65522, 0, 1, 14, 0, 1, 65550, 0, 1, 65551, 0, 1, 15, 0, 1, 131096, 0, 1, 65560, 0, 1, 24, 0, 1, -65512, 0, 1, -131048, 0, 1, -196584, 0, 1, -262120, 0, 1, -327656, 0, 0, -327655, 0, 0, -327654, 0, 0, -327653, 0, 0, -262117, 0, 1, -196581, 0, 1, -131045, 0, 1, -65510, 0, 1, 26, 0, 1, 65562, 0, 1, 131098, 0, 1, 131099, 0, 1, 65563, 0, 1, 27, 0, 1, -65509, 0, 1, -196582, 0, 1, -262118, 0, 1, -262119, 0, 1, -196583, 0, 1, -131047, 0, 1, -65511, 0, 1, 25, 0, 1, 65561, 0, 1, 131097, 0, 1, -131046, 0, 1, 131091, 262144, 10, 131092, 262144, 10, 131093, 262144, 10, 131094, 262144, 10, 131095, 262144, 10, 65559, 262144, 10, 65558, 262144, 10, 65557, 262144, 10, 65556, 262144, 10, 65555, 262144, 10, 19, 327680, 9, 20, 327680, 9, 21, 327680, 9, 22, 327680, 9, 23, 327680, 9)
 
 [node name="Player" parent="." instance=ExtResource("1_vwdjb")]
 z_index = 10
@@ -472,6 +530,14 @@ libraries = {
 "": SubResource("AnimationLibrary_snj0t")
 }
 autoplay = "move"
+
+[node name="Coins" type="Node" parent="."]
+
+[node name="Coin-1" parent="Coins" instance=ExtResource("4_vca6a")]
+position = Vector2(152, -36)
+
+[node name="Coin-2" parent="Coins" instance=ExtResource("4_vca6a")]
+position = Vector2(344, -86)
 
 [node name="BottomBound" type="StaticBody2D" parent="."]
 position = Vector2(1, 50)

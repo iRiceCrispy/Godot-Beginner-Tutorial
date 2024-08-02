@@ -1,0 +1,71 @@
+[gd_scene load_steps=9 format=3 uid="uid://cmwk0u4dur1w1"]
+
+[ext_resource type="Script" path="res://Scripts/Enemy.cs" id="1_atvx3"]
+[ext_resource type="Texture2D" uid="uid://p3exeiooxngk" path="res://Assets/Sprites/slime_green.png" id="1_vtquh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eioba"]
+atlas = ExtResource("1_vtquh")
+region = Rect2(0, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skcp0"]
+atlas = ExtResource("1_vtquh")
+region = Rect2(24, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5pteg"]
+atlas = ExtResource("1_vtquh")
+region = Rect2(48, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y6g4h"]
+atlas = ExtResource("1_vtquh")
+region = Rect2(72, 24, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_36y5d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eioba")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skcp0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5pteg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y6g4h")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2lc8q"]
+size = Vector2(12, 12)
+
+[node name="Enemy" type="Area2D" node_paths=PackedStringArray("_rayCastFront", "_rayCastGround")]
+collision_mask = 2
+script = ExtResource("1_atvx3")
+_rayCastFront = NodePath("RayCastFront")
+_rayCastGround = NodePath("RayCastGround")
+_speed = 50.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -12)
+sprite_frames = SubResource("SpriteFrames_36y5d")
+autoplay = "default"
+frame = 3
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_2lc8q")
+
+[node name="RayCastFront" type="RayCast2D" parent="."]
+position = Vector2(0, -8)
+target_position = Vector2(8, 0)
+
+[node name="RayCastGround" type="RayCast2D" parent="."]
+position = Vector2(8, -8)
+target_position = Vector2(0, 8)
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]

@@ -11,7 +11,13 @@ public partial class Player : CharacterBody2D
     [Export]
     private Sprite2D _sprite;
 
+    private GameManager _gameManager;
     private float _gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
+
+    public override void _Ready()
+    {
+        _gameManager = GetNode<GameManager>("%GameManager");
+    }
 
     public override void _PhysicsProcess(double delta)
     {
@@ -49,5 +55,10 @@ public partial class Player : CharacterBody2D
         Velocity = velocity;
 
         MoveAndSlide();
+    }
+
+    private void OnBottomBoundBodyEntered(Node2D body)
+    {
+        _gameManager.Restart();
     }
 }

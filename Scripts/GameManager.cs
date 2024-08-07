@@ -8,7 +8,7 @@ public partial class GameManager : Node
     [Signal]
     public delegate void CoinPickedUpEventHandler(int totalCoins);
 
-    public int CoinCounter { get; private set; } = 0;
+    public int CoinCounter { get; private set; }
 
     public void IncreaseCoin()
     {

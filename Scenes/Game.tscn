@@ -514,7 +514,7 @@ one_shot = true
 
 [node name="UIManager" type="Node" parent="UI" node_paths=PackedStringArray("_coinCounter")]
 script = ExtResource("2_xu1sy")
-_coinCounter = NodePath("../CoinCounter/PanelContainer/MarginContainer/GridContainer/Label")
+_coinCounter = NodePath("../CoinCounter/PanelContainer/MarginContainer/HBoxContainer/Label")
 
 [node name="CoinCounter" type="MarginContainer" parent="UI"]
 anchors_preset = 1
@@ -536,18 +536,17 @@ theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="GridContainer" type="GridContainer" parent="UI/CoinCounter/PanelContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/CoinCounter/PanelContainer/MarginContainer"]
 layout_mode = 2
-theme_override_constants/h_separation = 16
-columns = 2
+theme_override_constants/separation = 16
 
-[node name="TextureRect" type="TextureRect" parent="UI/CoinCounter/PanelContainer/MarginContainer/GridContainer"]
+[node name="TextureRect" type="TextureRect" parent="UI/CoinCounter/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 texture = SubResource("AtlasTexture_hjdax")
 expand_mode = 2
 stretch_mode = 4
 
-[node name="Label" type="Label" parent="UI/CoinCounter/PanelContainer/MarginContainer/GridContainer"]
+[node name="Label" type="Label" parent="UI/CoinCounter/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)

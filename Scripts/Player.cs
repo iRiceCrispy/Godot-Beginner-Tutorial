@@ -59,6 +59,6 @@ public partial class Player : CharacterBody2D
 
     private void OnBottomBoundBodyEntered(Node2D body)
     {
-        _gameManager.Restart();
+        _gameManager.KillPlayer();
     }
 }

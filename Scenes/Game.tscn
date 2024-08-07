@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bahqjfouek47d"]
+[gd_scene load_steps=24 format=3 uid="uid://bahqjfouek47d"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.cs" id="1_ihdtr"]
 [ext_resource type="PackedScene" uid="uid://55cyvsuc566d" path="res://Scenes/Player.tscn" id="1_vwdjb"]
@@ -6,9 +6,12 @@
 [ext_resource type="Script" path="res://Scripts/UIManager.cs" id="2_xu1sy"]
 [ext_resource type="Texture2D" uid="uid://yen0rtnm4dg3" path="res://Assets/Sprites/coin.png" id="3_2ghv8"]
 [ext_resource type="PackedScene" uid="uid://b3uw1bisyic16" path="res://Scenes/Platform.tscn" id="3_ft2hd"]
+[ext_resource type="Texture2D" uid="uid://bsu83gmtigwa8" path="res://Assets/Sprites/heart_empty.tres" id="4_23dsm"]
 [ext_resource type="PackedScene" uid="uid://cf6vmgo7oao0y" path="res://Scenes/Coin.tscn" id="4_vca6a"]
 [ext_resource type="FontFile" uid="uid://5st5xmr2vlx6" path="res://Assets/Fonts/PixelOperator8.ttf" id="4_x0wbg"]
+[ext_resource type="Texture2D" uid="uid://buua852jdam3b" path="res://Assets/Sprites/heart_full.tres" id="5_jvprs"]
 [ext_resource type="PackedScene" uid="uid://cmwk0u4dur1w1" path="res://Scenes/Enemy.tscn" id="9_uky88"]
+[ext_resource type="PackedScene" uid="uid://b8gkx5h6m563m" path="res://Scenes/Heart.tscn" id="12_qlie4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hjdax"]
 atlas = ExtResource("3_2ghv8")
@@ -504,6 +507,8 @@ normal = Vector2(1, 0)
 [node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("_restartTimer")]
 unique_name_in_owner = true
 script = ExtResource("1_ihdtr")
+_maxHearts = 5
+_initialHearts = 3
 _restartTimer = NodePath("RestartTimer")
 
 [node name="RestartTimer" type="Timer" parent="GameManager"]
@@ -512,9 +517,12 @@ one_shot = true
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="UIManager" type="Node" parent="UI" node_paths=PackedStringArray("_coinCounter")]
+[node name="UIManager" type="Node" parent="UI" node_paths=PackedStringArray("_coinCounter", "_heartCounter")]
 script = ExtResource("2_xu1sy")
 _coinCounter = NodePath("../CoinCounter/PanelContainer/MarginContainer/HBoxContainer/Label")
+_heartCounter = NodePath("../HeartCounter/PanelContainer/MarginContainer/HBoxContainer/HBoxContainer")
+_heartFull = ExtResource("5_jvprs")
+_heartEmpty = ExtResource("4_23dsm")
 
 [node name="CoinCounter" type="MarginContainer" parent="UI"]
 anchors_preset = 1
@@ -553,6 +561,37 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("4_x0wbg")
 theme_override_font_sizes/font_size = 64
 text = "000"
+
+[node name="HeartCounter" type="MarginContainer" parent="UI"]
+offset_right = 344.0
+offset_bottom = 160.0
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+
+[node name="PanelContainer" type="PanelContainer" parent="UI/HeartCounter"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/HeartCounter/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HeartCounter/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="UI/HeartCounter/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_x0wbg")
+theme_override_font_sizes/font_size = 64
+text = "Lives"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HeartCounter/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_7nuht")
@@ -618,6 +657,11 @@ position = Vector2(536, -214)
 [node name="Coin-5" parent="Coins" instance=ExtResource("4_vca6a")]
 position = Vector2(784, -208)
 
+[node name="Hearts" type="Node" parent="."]
+
+[node name="Heart" parent="Hearts" instance=ExtResource("12_qlie4")]
+position = Vector2(656, -241)
+
 [node name="WorldBounds" type="Node" parent="."]
 
 [node name="LeftBound" type="StaticBody2D" parent="WorldBounds"]
@@ -634,4 +678,5 @@ collision_mask = 2
 shape = SubResource("WorldBoundaryShape2D_lh3w6")
 
 [connection signal="timeout" from="GameManager/RestartTimer" to="GameManager" method="OnTimerTimeout"]
+[connection signal="ready" from="UI/UIManager" to="GameManager" method="OnUIManagerReady"]
 [connection signal="body_entered" from="WorldBounds/BottomBound" to="Player" method="OnBottomBoundBodyEntered"]

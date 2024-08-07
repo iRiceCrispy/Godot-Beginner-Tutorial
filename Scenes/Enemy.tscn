@@ -48,6 +48,7 @@ script = ExtResource("1_atvx3")
 _rayCastFront = NodePath("RayCastFront")
 _rayCastGround = NodePath("RayCastGround")
 _speed = 50.0
+_damage = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -12)

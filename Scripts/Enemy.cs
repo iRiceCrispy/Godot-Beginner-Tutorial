@@ -11,6 +11,9 @@ public partial class Enemy : Area2D
     [Export]
     private float _speed;
 
+    [Export]
+    private int _damage;
+
     private GameManager _gameManager;
     private float _direction = 1f;
 
@@ -38,6 +41,6 @@ public partial class Enemy : Area2D
 
     private void OnBodyEntered(Node2D body)
     {
-        _gameManager.Restart();
+        _gameManager.DamagePlayer(_damage);
     }
 }

@@ -11,6 +11,9 @@ public partial class GameManager : Node
     [Export]
     private Timer _restartTimer;
 
+    [Export]
+    private Player _player;
+
     [Signal]
     public delegate void CoinPickedUpEventHandler(int totalCoins);
 
@@ -43,7 +46,11 @@ public partial class GameManager : Node
 
     public void DamagePlayer(int amount = 1)
     {
-        UpdateHeartCounter(-amount);
+        if (!_player._isInvincible)
+        {
+            UpdateHeartCounter(-amount);
+            _player.ActivateInvincibilityFrame();
+        }
     }
 
     public void KillPlayer()

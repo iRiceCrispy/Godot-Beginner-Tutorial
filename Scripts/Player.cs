@@ -11,8 +11,16 @@ public partial class Player : CharacterBody2D
     [Export]
     private Sprite2D _sprite;
 
+    [Export]
+    private Timer _iFrameTimer;
+
+    [Export]
+    private AnimationPlayer _animationPlayer;
+
     private GameManager _gameManager;
     private float _gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
+
+    public bool _isInvincible;
 
     public override void _Ready()
     {
@@ -60,5 +68,18 @@ public partial class Player : CharacterBody2D
     private void OnBottomBoundBodyEntered(Node2D body)
     {
         _gameManager.KillPlayer();
+    }
+
+    public void ActivateInvincibilityFrame()
+    {
+        _isInvincible = true;
+        _animationPlayer.Play("blink");
+        _iFrameTimer.Start();
+    }
+
+    private void OnIFrameTimerTimeout()
+    {
+        _isInvincible = false;
+        _animationPlayer.Stop();
     }
 }

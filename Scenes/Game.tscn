@@ -504,12 +504,13 @@ normal = Vector2(1, 0)
 
 [node name="Game" type="Node2D"]
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("_restartTimer")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("_restartTimer", "_player")]
 unique_name_in_owner = true
 script = ExtResource("1_ihdtr")
 _maxHearts = 5
 _initialHearts = 3
 _restartTimer = NodePath("RestartTimer")
+_player = NodePath("../Player")
 
 [node name="RestartTimer" type="Timer" parent="GameManager"]
 process_mode = 3
